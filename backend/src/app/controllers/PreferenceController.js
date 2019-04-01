@@ -12,14 +12,7 @@ class PreferenceController {
       })
     }
 
-    if (await Preference.findOne({ where: { user_id: req.userId } })) {
-      return res.status(401).json({
-        error: 'Preferences already exists. Alter it from profile page. '
-      })
-    }
-
     const preference = await Preference.create({
-      user_id: req.userId,
       frontend,
       backend,
       mobile,
@@ -29,9 +22,11 @@ class PreferenceController {
     })
 
     user.first_time = false
+    user.preference_id = preference.id
+
     await user.save()
 
-    return res.json(preference)
+    return res.json({ user, preference })
   }
 }
 

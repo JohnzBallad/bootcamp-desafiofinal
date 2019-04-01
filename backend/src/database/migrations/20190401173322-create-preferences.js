@@ -9,35 +9,34 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      user_id: {
-        type: Sequelize.INTEGER,
-        reference: { model: 'users', key: 'id' },
-        onUpdate: 'CASCADE',
-        onDelete: 'CASCADE',
-        allowNull: false
-      },
       frontend: {
-        allowNull: false,
+        allowNull: true,
+        defaultValue: false,
         type: Sequelize.BOOLEAN
       },
       backend: {
-        allowNull: false,
+        allowNull: true,
+        defaultValue: false,
         type: Sequelize.BOOLEAN
       },
       mobile: {
-        allowNull: false,
+        allowNull: true,
+        defaultValue: false,
         type: Sequelize.BOOLEAN
       },
       devops: {
-        allowNull: false,
+        allowNull: true,
+        defaultValue: false,
         type: Sequelize.BOOLEAN
       },
       gestao: {
-        allowNull: false,
+        allowNull: true,
+        defaultValue: false,
         type: Sequelize.BOOLEAN
       },
       marketing: {
-        allowNull: false,
+        allowNull: true,
+        defaultValue: false,
         type: Sequelize.BOOLEAN
       },
       created_at: {

@@ -27,6 +27,13 @@ module.exports = {
         type: Sequelize.BOOLEAN,
         defaultValue: true
       },
+      preference_id: {
+        type: Sequelize.INTEGER,
+        reference: { model: 'preferences', key: 'id' },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
+        allowNull: true
+      },
       created_at: {
         allowNull: false,
         type: Sequelize.DATE

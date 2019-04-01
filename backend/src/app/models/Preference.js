@@ -8,9 +8,5 @@ module.exports = (sequelize, DataTypes) => {
     marketing: DataTypes.BOOLEAN
   })
 
-  Preference.associate = models => {
-    Preference.belongsTo(models.User, { foreignKey: 'user_id' })
-  }
-
   return Preference
 }

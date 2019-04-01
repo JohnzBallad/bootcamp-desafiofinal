@@ -36,7 +36,7 @@ class UserController {
         gestao
       },
       {
-        where: { user_id: req.userId }
+        where: { id: user.preference_id }
       }
     )
 

@@ -10,7 +10,8 @@ module.exports = (sequelize, DataTypes) => {
       email: DataTypes.STRING,
       password: DataTypes.VIRTUAL,
       password_hash: DataTypes.STRING,
-      first_time: DataTypes.BOOLEAN
+      first_time: DataTypes.BOOLEAN,
+      preference_id: DataTypes.INTEGER
     },
     {
       hooks: {
@@ -22,6 +23,13 @@ module.exports = (sequelize, DataTypes) => {
       }
     }
   )
+
+  User.associate = models => {
+    User.hasOne(models.Preference, {
+      foreignKey: 'preference_id',
+      sourceKey: 'id'
+    })
+  }
 
   User.prototype.checkPassword = function (password) {
     return bcrypt.compare(password, this.password_hash)
