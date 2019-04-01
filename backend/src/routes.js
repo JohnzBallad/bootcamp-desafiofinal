@@ -11,11 +11,11 @@ const SessionController = require('./app/controllers/SessionController')
 const PreferenceController = require('./app/controllers/PreferenceController')
 
 routes.post('/signup', UserController.store)
-
 routes.post('/sessions', SessionController.store)
 
 routes.use(authMiddleware)
 
 routes.post('/preferences', PreferenceController.store)
+routes.put('/profile', UserController.update)
 
 module.exports = routes

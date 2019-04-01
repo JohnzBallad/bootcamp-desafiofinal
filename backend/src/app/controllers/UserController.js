@@ -1,4 +1,4 @@
-const { User } = require('../models')
+const { User, Preference } = require('../models')
 
 class UserController {
   async store (req, res) {
@@ -11,6 +11,36 @@ class UserController {
     const user = await User.create({ name, email, password })
 
     return res.json(user)
+  }
+
+  async update (req, res) {
+    const {
+      name,
+      password,
+      preferences: { frontend, backend, mobile, devops, gestao, marketing }
+    } = req.body
+
+    const user = await User.findOne({ where: { id: req.userId } })
+
+    user.name = name
+    user.password = password
+    await user.save()
+
+    const newPreference = await Preference.update(
+      {
+        frontend,
+        backend,
+        mobile,
+        devops,
+        marketing,
+        gestao
+      },
+      {
+        where: { user_id: req.userId }
+      }
+    )
+
+    return res.json({ user, udapted: newPreference })
   }
 }
 
