@@ -1,5 +1,5 @@
+require('dotenv').config()
 const express = require('express')
-
 class App {
   constructor () {
     this.express = express()
