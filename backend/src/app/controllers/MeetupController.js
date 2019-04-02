@@ -1,4 +1,5 @@
 const { Preference, Meetup } = require('../models')
+const { Op } = require('sequelize')
 
 class MeetupController {
   async store (req, res) {
@@ -17,7 +18,17 @@ class MeetupController {
   }
 
   async index (req, res) {
-    const meetups = await Meetup.findAll()
+    const { titulo } = req.query
+
+    const filter = {}
+
+    if (titulo) {
+      filter.where = {
+        title: { [Op.iLike]: `%${titulo}%` }
+      }
+    }
+
+    const meetups = await Meetup.findAll(filter)
 
     return res.json(meetups)
   }
