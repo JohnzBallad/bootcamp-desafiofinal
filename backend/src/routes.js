@@ -9,6 +9,7 @@ const authMiddleware = require('./app/middlewares/auth')
 const UserController = require('./app/controllers/UserController')
 const SessionController = require('./app/controllers/SessionController')
 const PreferenceController = require('./app/controllers/PreferenceController')
+const MeetupController = require('./app/controllers/MeetupController')
 
 routes.post('/signup', UserController.store)
 routes.post('/sessions', SessionController.store)
@@ -17,5 +18,7 @@ routes.use(authMiddleware)
 
 routes.post('/preferences', PreferenceController.store)
 routes.put('/profile', UserController.update)
+
+routes.post('/meetups', MeetupController.store)
 
 module.exports = routes
