@@ -15,6 +15,12 @@ class MeetupController {
 
     return res.json(meetup)
   }
+
+  async index (req, res) {
+    const meetups = await Meetup.findAll()
+
+    return res.json(meetups)
+  }
 }
 
 module.exports = new MeetupController()
