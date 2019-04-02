@@ -29,6 +29,10 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'preference_id',
       sourceKey: 'id'
     })
+    User.belongsToMany(models.Meetup, {
+      through: models.Subscriber,
+      foreignKey: 'meetup_id'
+    })
   }
 
   User.prototype.checkPassword = function (password) {

@@ -13,6 +13,10 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'preference_id',
       sourceKey: 'id'
     })
+    Meetup.belongsToMany(models.User, {
+      through: models.Subscriber,
+      foreignKey: 'user_id'
+    })
   }
 
   return Meetup
