@@ -1,4 +1,8 @@
 const { Meetup, Subscriber, User } = require('../models')
+const {
+  Op: { iLike, notIn },
+  literal
+} = require('sequelize')
 
 class SubscribeController {
   async store (req, res) {
@@ -29,6 +33,21 @@ class SubscribeController {
     await meetup.save()
 
     return res.json({ subscriber, meetup })
+  }
+
+  async listNotEnrolledMeetups (req, res) {
+    const meetups = await Meetup.findAll({
+      where: {
+        id: {
+          [notIn]: literal(`(SELECT meetup_id
+                              FROM subscribers
+                        INNER JOIN users ON (subscribers.user_id = users.id
+                               AND users.id = ${req.userId}))`)
+        }
+      }
+    })
+
+    return res.json(meetups)
   }
 }
 
