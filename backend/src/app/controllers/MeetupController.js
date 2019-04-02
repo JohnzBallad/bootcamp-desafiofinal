@@ -20,28 +20,12 @@ class MeetupController {
   }
 
   async index (req, res) {
-    const { titulo, unsubscribed } = req.query
+    const { titulo } = req.query
 
-    const filter = {
-      where: {}
-    }
+    const filter = {}
 
     if (titulo) {
       filter.where.title = { [iLike]: `%${titulo}%` }
-    }
-
-    if (unsubscribed) {
-      filter.include = [
-        {
-          model: User,
-          through: {
-            where: {
-              // meetup_id: { [eq]: { [col]: 'Meetup.id' } },
-              user_id: { [ne]: req.userId }
-            }
-          }
-        }
-      ]
     }
 
     const meetups = await Meetup.findAll(filter)
