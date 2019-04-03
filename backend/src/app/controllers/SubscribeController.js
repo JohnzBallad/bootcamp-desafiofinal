@@ -1,6 +1,8 @@
 const { Meetup, Subscriber, Preference } = require('../models')
+const moment = require('moment')
+
 const {
-  Op: { iLike, notIn },
+  Op: { gte, notIn, in: In },
   literal
 } = require('sequelize')
 
@@ -44,6 +46,27 @@ class SubscribeController {
                               FROM subscribers
                         INNER JOIN users ON (subscribers.user_id = users.id
                                AND users.id = ${req.userId}))`)
+        }
+      }
+    })
+
+    return res.json(meetups)
+  }
+
+  async listEnrolledAndNext (req, res) {
+    const today = moment()
+
+    const meetups = await Meetup.findAll({
+      include: [Preference],
+      where: {
+        id: {
+          [In]: literal(`(SELECT meetup_id
+                              FROM subscribers
+                        INNER JOIN users ON (subscribers.user_id = users.id
+                               AND users.id = ${req.userId}))`)
+        },
+        when: {
+          [gte]: today
         }
       }
     })
