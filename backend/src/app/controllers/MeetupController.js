@@ -1,6 +1,6 @@
 const { Preference, Meetup } = require('../models')
 const {
-  Op: { eq, iLike, or },
+  Op: { eq, iLike, or, notIn },
   literal
 } = require('sequelize')
 
@@ -89,7 +89,15 @@ class MeetupController {
             [or]: filtered
           }
         }
-      ]
+      ],
+      where: {
+        id: {
+          [notIn]: literal(`(SELECT meetup_id
+            FROM subscribers
+              INNER JOIN users ON (subscribers.user_id = users.id
+              AND users.id = ${req.userId}))`)
+        }
+      }
     })
 
     return res.json(meetups)
