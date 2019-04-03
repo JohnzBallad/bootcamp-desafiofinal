@@ -5,6 +5,7 @@ module.exports = (sequelize, DataTypes) => {
     subscribers: DataTypes.INTEGER,
     cover: DataTypes.STRING,
     location: DataTypes.STRING,
+    when: DataTypes.DATE,
     preference_id: DataTypes.INTEGER
   })
 

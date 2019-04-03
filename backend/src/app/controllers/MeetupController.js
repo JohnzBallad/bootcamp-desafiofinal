@@ -1,4 +1,5 @@
 const { Preference, Meetup } = require('../models')
+const moment = require('moment')
 const {
   Op: { eq, iLike, or, notIn },
   literal
@@ -6,7 +7,7 @@ const {
 
 class MeetupController {
   async store (req, res) {
-    const { title, description, location, preferences } = req.body
+    const { title, description, location, preferences, when } = req.body
 
     if (!req.file) {
       return res.status(400).json({ error: 'You must provide a cover' })
@@ -21,6 +22,7 @@ class MeetupController {
       description,
       location,
       cover,
+      when: moment(when).format(),
       preference_id: preference.id
     })
 
