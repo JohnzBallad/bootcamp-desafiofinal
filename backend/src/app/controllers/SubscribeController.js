@@ -1,4 +1,4 @@
-const { Meetup, Subscriber, User } = require('../models')
+const { Meetup, Subscriber, Preference } = require('../models')
 const {
   Op: { iLike, notIn },
   literal
@@ -37,6 +37,7 @@ class SubscribeController {
 
   async listNotEnrolledMeetups (req, res) {
     const meetups = await Meetup.findAll({
+      include: [Preference],
       where: {
         id: {
           [notIn]: literal(`(SELECT meetup_id
