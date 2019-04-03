@@ -9,14 +9,11 @@ module.exports = (sequelize, DataTypes) => {
   })
 
   Meetup.associate = models => {
-    Meetup.hasOne(models.Preference, {
-      foreignKey: 'preference_id',
-      sourceKey: 'id'
-    })
     Meetup.belongsToMany(models.User, {
       through: models.Subscriber,
       foreignKey: 'meetup_id'
     })
+    Meetup.belongsTo(models.Preference)
   }
 
   return Meetup
