@@ -22,7 +22,9 @@ routes.put('/profile', UserController.update)
 
 routes.post('/meetups', MeetupController.store)
 routes.get('/meetups', MeetupController.index)
+
 routes.get('/meetups/filter/title', MeetupController.filterByTitle)
+routes.get('/meetups/filter/preferences', MeetupController.filterByPreferences)
 
 routes.post('/meetups/:meetupId/subscribe', SubscribeController.store)
 

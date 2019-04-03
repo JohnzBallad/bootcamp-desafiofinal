@@ -1,6 +1,7 @@
 const { Preference, Meetup } = require('../models')
 const {
-  Op: { eq, iLike }
+  Op: { eq, iLike, or },
+  literal
 } = require('sequelize')
 
 class MeetupController {
@@ -37,6 +38,58 @@ class MeetupController {
     const meetups = await Meetup.findAll({
       where: { title: { [iLike]: `%${value}%` } },
       include: [Preference]
+    })
+
+    return res.json(meetups)
+  }
+
+  async filterByPreferences (req, res) {
+    const { value: preferences } = req.query
+
+    if (!preferences) {
+      return res.status(400).json({ error: 'Preferences not provided' })
+    }
+
+    const prefs = preferences.split(',')
+
+    const filtered = {}
+
+    prefs.map(pref => {
+      switch (pref) {
+        case 'frontend': {
+          return (filtered.frontend = {
+            [eq]: true
+          })
+        }
+        case 'backend': {
+          return (filtered.backend = { [eq]: true })
+        }
+        case 'mobile': {
+          return (filtered.mobile = { [eq]: true })
+        }
+        case 'devops': {
+          return (filtered.devops = { [eq]: true })
+        }
+        case 'gestao': {
+          return (filtered.gestao = { [eq]: true })
+        }
+        case 'marketing': {
+          return (filtered.marketing = { [eq]: true })
+        }
+        default:
+          return pref
+      }
+    })
+
+    const meetups = await Meetup.findAll({
+      include: [
+        {
+          model: Preference,
+          where: {
+            [or]: filtered
+          }
+        }
+      ]
     })
 
     return res.json(meetups)
