@@ -8,12 +8,19 @@ class MeetupController {
   async store (req, res) {
     const { title, description, location, preferences } = req.body
 
-    const preference = await Preference.create(preferences)
+    if (!req.file) {
+      return res.status(400).json({ error: 'You must provide a cover' })
+    }
+
+    const { filename: cover } = req.file
+
+    const preference = await Preference.create(JSON.parse(preferences))
 
     const meetup = await Meetup.create({
       title,
       description,
       location,
+      cover,
       preference_id: preference.id
     })
 

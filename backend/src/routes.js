@@ -1,4 +1,6 @@
 const express = require('express')
+const multerConfig = require('./config/multer')
+const upload = require('multer')(multerConfig)
 
 const routes = express.Router()
 
@@ -11,6 +13,9 @@ const SessionController = require('./app/controllers/SessionController')
 const PreferenceController = require('./app/controllers/PreferenceController')
 const MeetupController = require('./app/controllers/MeetupController')
 const SubscribeController = require('./app/controllers/SubscribeController')
+const FileController = require('./app/controllers/FileController')
+
+routes.get('/files/:file', FileController.show)
 
 routes.post('/signup', UserController.store)
 routes.post('/sessions', SessionController.store)
@@ -20,7 +25,8 @@ routes.use(authMiddleware)
 routes.post('/preferences', PreferenceController.store)
 routes.put('/profile', UserController.update)
 
-routes.post('/meetups', MeetupController.store)
+routes.post('/meetups', upload.single('cover'), MeetupController.store)
+
 routes.get('/meetups', MeetupController.index)
 
 routes.get('/meetups/filter/title', MeetupController.filterByTitle)
