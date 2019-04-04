@@ -22,7 +22,7 @@ routes.post('/sessions', SessionController.store)
 
 routes.use(authMiddleware)
 
-routes.post('/preferences', PreferenceController.store)
+routes.post('/welcome', PreferenceController.store)
 routes.put('/profile', UserController.update)
 
 routes.post('/meetups', upload.single('cover'), MeetupController.store)
