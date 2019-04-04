@@ -30,7 +30,7 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'user_id'
     })
 
-    User.belongsTo(models.Preference)
+    User.belongsTo(models.Preference, { foreignKey: 'preference_id' })
   }
 
   User.prototype.checkPassword = function (password) {

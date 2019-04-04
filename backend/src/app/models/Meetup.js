@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
       through: models.Subscriber,
       foreignKey: 'meetup_id'
     })
-    Meetup.belongsTo(models.Preference)
+    Meetup.belongsTo(models.Preference, { foreignKey: 'preference_id' })
   }
 
   return Meetup
