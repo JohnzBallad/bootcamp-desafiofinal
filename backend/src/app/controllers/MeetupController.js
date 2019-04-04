@@ -37,6 +37,14 @@ class MeetupController {
     return res.json(meetups)
   }
 
+  async show (req, res) {
+    const { meetupId } = req.params
+
+    const meetup = await Meetup.findByPk(meetupId)
+
+    return res.json(meetup)
+  }
+
   async filterByTitle (req, res) {
     const { value } = req.query
 
