@@ -1,4 +1,4 @@
-const { Preference, Meetup } = require('../models')
+const { Preference, Meetup, User } = require('../models')
 const moment = require('moment')
 const {
   Op: { eq, iLike, or, notIn },
@@ -53,49 +53,71 @@ class MeetupController {
   }
 
   async filterByPreferences (req, res) {
-    const { value: preferences } = req.query
+    // const { value: preferences } = req.query
 
-    if (!preferences) {
-      return res.status(400).json({ error: 'Preferences not provided' })
-    }
+    // if (!preferences) {
+    //   return res.status(400).json({ error: 'Preferences not provided' })
+    // }
 
-    const prefs = preferences.split(',')
+    // const prefs = preferences.split(',')
 
-    const filtered = {}
-
-    prefs.map(pref => {
-      switch (pref) {
-        case 'frontend': {
-          return (filtered.frontend = {
-            [eq]: true
-          })
-        }
-        case 'backend': {
-          return (filtered.backend = { [eq]: true })
-        }
-        case 'mobile': {
-          return (filtered.mobile = { [eq]: true })
-        }
-        case 'devops': {
-          return (filtered.devops = { [eq]: true })
-        }
-        case 'gestao': {
-          return (filtered.gestao = { [eq]: true })
-        }
-        case 'marketing': {
-          return (filtered.marketing = { [eq]: true })
-        }
-        default:
-          return pref
+    const user = await User.findOne({
+      where: {
+        id: { [eq]: req.userId }
+      },
+      include: {
+        model: Preference,
+        attributes: [
+          'frontend',
+          'backend',
+          'mobile',
+          'devops',
+          'gestao',
+          'marketing'
+        ]
       }
     })
+
+    const { Preference: prefs } = user
+
+    const filter = {}
+
+    if (prefs.backend) {
+      filter.backend = {
+        [eq]: true
+      }
+    }
+
+    if (prefs.frontend) {
+      filter.frontend = {
+        [eq]: true
+      }
+    }
+
+    if (prefs.mobile) {
+      filter.mobile = {
+        [eq]: true
+      }
+    }
+
+    if (prefs.gestao) {
+      filter.gestao = {
+        [eq]: true
+      }
+    }
+
+    if (prefs.marketing) {
+      filter.marketing = {
+        [eq]: true
+      }
+    }
 
     const meetups = await Meetup.findAll({
       include: [
         {
           model: Preference,
           where: {
-            [or]: filtered
+            [or]: filter
           }
         }
       ],
@@ -110,6 +132,55 @@ class MeetupController {
     })
 
     return res.json(meetups)
+    // prefs.map(pref => {
+    //   switch (pref) {
+    //     case 'frontend': {
+    //       return (filter.frontend = {
+    //         [eq]: true
+    //       })
+    //     }
+    //     case 'backend': {
+    //       return (filter.backend = { [eq]: true })
+    //     }
+    //     case 'mobile': {
+    //       return (filter.mobile = { [eq]: true })
+    //     }
+    //     case 'devops': {
+    //       return (filter.devops = { [eq]: true })
+    //     }
+    //     case 'gestao': {
+    //       return (filter.gestao = { [eq]: true })
+    //     }
+    //     case 'marketing': {
+    //       return (filter.marketing = { [eq]: true })
+    //     }
+    //     default:
+    //       return pref
+    //   }
+    // })
+
+    // const meetups = await Meetup.findAll({
+    //   include: [
+    //     {
+    //       model: Preference,
+    //       where: {
+    //         [or]: filter
+    //       }
+    //     }
+    //   ],
+    //   where: {
+    //     id: {
+    //       [notIn]: literal(`(SELECT meetup_id
+    //         FROM subscribers
+    //           INNER JOIN users ON (subscribers.user_id = users.id
+    //           AND users.id = ${req.userId}))`)
+    //     }
+    //   }
+    // })
+  }
+
+  doSomething () {
+    console.log('something')
   }
 }
 
