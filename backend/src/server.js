@@ -1,5 +1,5 @@
+require('dotenv').config()
 const express = require('express')
-
 class App {
   constructor () {
     this.express = express()
@@ -9,11 +9,7 @@ class App {
   }
 
   middlewares () {
-    this.express.use(
-      express.urlencoded({
-        extended: false
-      })
-    )
+    this.express.use(express.json())
   }
 
   routes () {
