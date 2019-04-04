@@ -1,7 +1,7 @@
 const { Preference, Meetup, User } = require('../models')
 const moment = require('moment')
 const {
-  Op: { eq, iLike, or, notIn },
+  Op: { eq, iLike, or, notIn, gte },
   literal
 } = require('sequelize')
 
@@ -60,6 +60,8 @@ class MeetupController {
     // }
 
     // const prefs = preferences.split(',')
+
+    const today = moment()
 
     const user = await User.findOne({
       where: {
@@ -127,6 +129,9 @@ class MeetupController {
             FROM subscribers
               INNER JOIN users ON (subscribers.user_id = users.id
               AND users.id = ${req.userId}))`)
+        },
+        when: {
+          [gte]: today
         }
       }
     })
@@ -177,10 +182,6 @@ class MeetupController {
     //     }
     //   }
     // })
-  }
-
-  doSomething () {
-    console.log('something')
   }
 }
 
