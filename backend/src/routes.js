@@ -26,15 +26,15 @@ routes.post('/welcome', PreferenceController.store)
 routes.put('/profile', UserController.update)
 
 routes.post('/meetups', upload.single('cover'), MeetupController.store)
-routes.get('/meetups/:meetupId', MeetupController.show)
+routes.get('/meetups/show/:meetupId', MeetupController.show)
 routes.get('/meetups', MeetupController.index)
 
+routes.get('/meetups/notenrolled', SubscribeController.listNotEnrolledMeetups)
 routes.get('/meetups/enrolled/next', SubscribeController.listEnrolledAndNext)
+
 routes.get('/meetups/filter/title', MeetupController.filterByTitle)
 routes.get('/meetups/filter/preferences', MeetupController.filterByPreferences)
 
 routes.post('/meetups/:meetupId/subscribe', SubscribeController.store)
-
-routes.get('/meetups/notenrolled', SubscribeController.listNotEnrolledMeetups)
 
 module.exports = routes
