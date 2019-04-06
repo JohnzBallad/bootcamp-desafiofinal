@@ -1,4 +1,7 @@
-const { Meetup, Subscriber, Preference } = require('../models')
+const { Meetup, Subscriber, Preference, User } = require('../models')
+const MeetupSubscription = require('../jobs/MeetupSubscription')
+const Queue = require('../services/Queue')
+const Mail = require('../services/Mail')
 const moment = require('moment')
 
 const {
@@ -26,7 +29,7 @@ class SubscribeController {
         .json({ error: 'You are already subscribed to this meetup' })
     }
 
-    const subscriber = await Subscriber.create({
+    await Subscriber.create({
       meetup_id: meetupId,
       user_id: req.userId
     })
@@ -34,7 +37,14 @@ class SubscribeController {
     meetup.subscribers += 1
     await meetup.save()
 
-    return res.json({ subscriber, meetup })
+    const user = await User.findByPk(req.userId)
+
+    Queue.create(MeetupSubscription.key, {
+      meetup,
+      user
+    }).save()
+
+    return res.send()
   }
 
   async listNotEnrolledMeetups (req, res) {
