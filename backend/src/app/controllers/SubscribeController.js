@@ -1,6 +1,7 @@
 const { Meetup, Subscriber, Preference, User } = require('../models')
 const MeetupSubscription = require('../jobs/MeetupSubscription')
 const Queue = require('../services/Queue')
+const Mail = require('../services/Mail')
 const moment = require('moment')
 
 const {
