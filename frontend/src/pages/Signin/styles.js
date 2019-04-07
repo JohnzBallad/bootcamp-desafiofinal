@@ -12,10 +12,16 @@ export const Container = styled.div`
     margin: 40px 0;
   }
 
-  p {
+  a {
+    text-decoration: none;
     margin: 20px 0;
     color: #fff;
     opacity: 0.6;
+
+    &:hover {
+      color: #fff;
+      opacity: 1;
+    }
   }
 `;
 
