@@ -1,14 +1,21 @@
-import React, { Fragment } from 'react';
+import React from 'react';
+import { Provider } from 'react-redux';
+import { ToastContainer } from 'react-toastify';
+
+import './config/reactotron';
 
 import Routes from './Routes/index';
+import store from './store';
 
 import GlobalStyle from './globalStyle';
+import 'react-toastify/dist/ReactToastify.css';
 
 const App = () => (
-  <Fragment>
+  <Provider store={store}>
     <GlobalStyle />
     <Routes />
-  </Fragment>
+    <ToastContainer />
+  </Provider>
 );
 
 export default App;

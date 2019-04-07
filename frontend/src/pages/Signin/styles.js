@@ -22,6 +22,7 @@ export const Container = styled.div`
 export const Form = styled.form`
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
 `;
 
 export const Label = styled.span`
@@ -34,6 +35,7 @@ export const Label = styled.span`
 export const Input = styled.input`
   font-size: 20px;
   text-align: left;
+  width: 240px;
   margin-bottom: 20px;
   background: transparent;
   border: 0;
@@ -45,13 +47,13 @@ export const Button = styled.button`
   justify-content: center;
 
   font-size: 16px;
-  width: 200px;
+  width: 300px;
   font-weight: bold;
   color: #fff;
 
   border: 0;
-  border-radius: 15px;
+  border-radius: 20px;
   background-color: #e5556e;
 
-  padding: 10px;
+  padding: 12px;
 `;

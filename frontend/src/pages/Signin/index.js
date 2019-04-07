@@ -1,18 +1,34 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import {
   Container, Form, Label, Input, Button,
 } from './styles';
 
+import { Creators as UserActions } from '../../store/ducks/user';
+
 import Logo from '../../assets/logo.svg';
 
-export default class Signin extends Component {
+class Signin extends Component {
+  static propTypes = {
+    userLoginRequest: PropTypes.func.isRequired,
+  };
+
   state = {
     email: '',
     password: '',
   };
 
-  handleFormSubmit = () => {};
+  handleFormSubmit = (e) => {
+    e.preventDefault();
+
+    const { email, password } = this.state;
+    const { userLoginRequest } = this.props;
+
+    userLoginRequest({ email, password });
+  };
 
   render() {
     const { email, password } = this.state;
@@ -39,12 +55,23 @@ export default class Signin extends Component {
             placeholder="Sua senha secreta"
             placeholderTextColor="#b3b3b3"
           />
-        </Form>
 
-        <Button type="submit">Entrar</Button>
+          <Button type="submit">Entrar</Button>
+        </Form>
 
         <p>Criar conta grátis</p>
       </Container>
     );
   }
 }
+
+const mapStateToProps = state => ({
+  user: state.user,
+});
+
+const mapDispatchToProps = dispatch => bindActionCreators(UserActions, dispatch);
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Signin);
