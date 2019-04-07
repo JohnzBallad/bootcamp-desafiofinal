@@ -11,10 +11,14 @@ import {
 import { Creators as UserActions } from '../../store/ducks/user';
 
 import Logo from '../../assets/logo.svg';
+import Loading from '../../components/Loading';
 
 class Signin extends Component {
   static propTypes = {
     userLoginRequest: PropTypes.func.isRequired,
+    user: PropTypes.shape({
+      loading: PropTypes.bool,
+    }).isRequired,
   };
 
   state = {
@@ -33,6 +37,7 @@ class Signin extends Component {
 
   render() {
     const { email, password } = this.state;
+    const { loading } = this.props.user;
 
     return (
       <Container>
@@ -57,6 +62,7 @@ class Signin extends Component {
             placeholderTextColor="#b3b3b3"
           />
 
+          {/* <Button type="submit">{loading ? <Loading /> : 'Entrar'}</Button> */}
           <Button type="submit">Entrar</Button>
         </Form>
 
