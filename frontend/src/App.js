@@ -1,8 +1,8 @@
+import './config/reactotron';
+
 import React from 'react';
 import { Provider } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
-
-import './config/reactotron';
 
 import Routes from './Routes/index';
 import store from './store';
