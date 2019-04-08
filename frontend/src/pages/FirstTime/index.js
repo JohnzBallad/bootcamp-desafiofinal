@@ -1,10 +1,24 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
+/* eslint-disable jsx-a11y/label-has-for */
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
 import {
   Container, Form, Input, Wrapper, Button,
 } from './styles';
 
-export default class FirstTime extends Component {
+import { Creators as PreferenceActions } from '../../store/ducks/preference';
+
+class FirstTime extends Component {
+  static propTypes = {
+    history: PropTypes.shape({
+      push: PropTypes.func,
+    }).isRequired,
+    setPreferenceRequest: PropTypes.func.isRequired,
+  };
+
   state = {
     isFrontend: false,
     isBackend: false,
@@ -14,8 +28,31 @@ export default class FirstTime extends Component {
     isMarketing: false,
   };
 
+  componentDidMount() {
+    const user = JSON.parse(localStorage.getItem('@meetapp.userinfo'));
+
+    if (!user.first_time) {
+      const { history } = this.props;
+      history.push('/signup');
+    }
+  }
+
   handleFormSubmit = (e) => {
     e.preventDefault();
+
+    const {
+      isFrontend, isBackend, isDevops, isGestao, isMobile, isMarketing,
+    } = this.state;
+    const { setPreferenceRequest } = this.props;
+
+    setPreferenceRequest({
+      frontend: isFrontend,
+      backend: isBackend,
+      devops: isDevops,
+      gestao: isGestao,
+      mobile: isMobile,
+      marketing: isMarketing,
+    });
   };
 
   render() {
@@ -102,3 +139,14 @@ export default class FirstTime extends Component {
     );
   }
 }
+
+const mapDispatchToProps = dispatch => bindActionCreators(PreferenceActions, dispatch);
+
+const mapStateToProps = state => ({
+  preference: state.preference,
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(FirstTime);
