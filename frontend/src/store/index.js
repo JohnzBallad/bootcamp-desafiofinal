@@ -1,8 +1,15 @@
 import { createStore, compose, applyMiddleware } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 
+import { routerMiddleware } from 'connected-react-router';
+import { createBrowserHistory } from 'history';
+
 import reducers from './ducks';
 import sagas from './sagas';
+
+/**
+ *  Middlewares
+ */
 
 const middlewares = [];
 
@@ -14,10 +21,16 @@ middlewares.push(sagaMiddleware);
 
 const tronMiddleware = process.env.NODE_ENV === 'development' ? console.tron.createEnhancer : () => {};
 
+/**
+ * Store
+ */
+
+export const history = createBrowserHistory();
+
 const store = createStore(
-  reducers,
+  reducers(history),
   compose(
-    applyMiddleware(...middlewares),
+    applyMiddleware(...middlewares, routerMiddleware(history)),
     tronMiddleware(),
   ),
 );
