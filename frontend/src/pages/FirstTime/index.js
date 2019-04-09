@@ -17,6 +17,13 @@ class FirstTime extends Component {
       push: PropTypes.func,
     }).isRequired,
     setPreferenceRequest: PropTypes.func.isRequired,
+    user: PropTypes.shape({
+      data: PropTypes.shape({
+        user: PropTypes.shape({
+          name: PropTypes.string,
+        }),
+      }),
+    }).isRequired,
   };
 
   state = {
@@ -29,11 +36,22 @@ class FirstTime extends Component {
   };
 
   componentDidMount() {
-    const user = JSON.parse(localStorage.getItem('@meetapp.userinfo'));
+    const { history } = this.props;
 
-    if (!user.first_time) {
-      const { history } = this.props;
-      history.push('/signup');
+    const {
+      user: { info },
+    } = this.props;
+
+    if (!info) {
+      // usuário não passou pelo processo de login
+      // então move ele pra página de login
+      history.push('/');
+    }
+
+    if (info && !info.first_time) {
+      // usuário passou pelo processo de login
+      // entretanto não é a primeira vez que ele faz login
+      history.push('/');
     }
   }
 
@@ -57,12 +75,16 @@ class FirstTime extends Component {
 
   render() {
     const {
+      user: { info },
+    } = this.props;
+
+    const {
       isFrontend, isBackend, isDevops, isMarketing, isMobile, isGestao,
     } = this.state;
     return (
       <Container>
         <Wrapper>
-          <h2>Olá, Jonathan</h2>
+          <h2>Olá, {info.name}</h2>
 
           <p>
             Parece que é seu primeiro acesso por aqui, comece escolhendo algumas preferências para
@@ -144,6 +166,7 @@ const mapDispatchToProps = dispatch => bindActionCreators(PreferenceActions, dis
 
 const mapStateToProps = state => ({
   preference: state.preference,
+  user: state.user,
 });
 
 export default connect(

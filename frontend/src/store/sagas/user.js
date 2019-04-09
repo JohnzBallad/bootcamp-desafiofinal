@@ -9,8 +9,6 @@ export function* userLogin(action) {
   try {
     const { data } = yield call(api.post, '/sessions', action.payload.credentials);
 
-    yield put(UserActions.userLoginSuccess(data));
-
     // Salva o token no localStorage do browser.
     localStorage.setItem('@meetapp.usertoken', data.token);
 
@@ -18,6 +16,7 @@ export function* userLogin(action) {
     localStorage.setItem(
       '@meetapp.userinfo',
       JSON.stringify({
+        name: data.user.name,
         id: data.user.id,
         email: data.user.email,
         first_time: data.user.first_time,
@@ -28,6 +27,8 @@ export function* userLogin(action) {
     toast.success('Login Successful', {
       position: toast.POSITION.TOP_CENTER,
     });
+
+    yield put(UserActions.userLoginSuccess(data.user, data.token));
 
     if (data.user.first_time) {
       yield put(push('/welcome'));
