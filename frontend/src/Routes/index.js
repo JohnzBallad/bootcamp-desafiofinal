@@ -5,6 +5,7 @@ import { ConnectedRouter } from 'connected-react-router';
 import Signin from '../pages/Signin';
 import Signup from '../pages/Signup';
 import FirstTime from '../pages/FirstTime';
+import Dashboard from '../pages/Dashboard';
 
 import { history } from '../store';
 
@@ -14,8 +15,9 @@ const Routes = () => (
       <Switch>
         <ConnectedRouter history={history}>
           <Route exact path="/" component={Signin} />
-          <Route exact path="/signup" component={Signup} />
-          <Route exact path="/welcome" component={FirstTime} />
+          <Route path="/signup" component={Signup} />
+          <Route path="/welcome" component={FirstTime} />
+          <Route path="/dashboard" component={Dashboard} />
         </ConnectedRouter>
       </Switch>
     </Fragment>
