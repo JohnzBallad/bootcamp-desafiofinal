@@ -11,7 +11,7 @@ export const Container = styled.div`
 
   display: flex;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: space-between;
 `;
 
 export const Button = styled.button`
@@ -23,4 +23,21 @@ export const Button = styled.button`
   font-size: 16px;
   font-weight: bold;
   color: #fff;
+`;
+
+export const LeftWrapper = styled.div`
+  display: flex;
+`;
+
+export const Person = styled.button`
+  border: 0;
+  outline: 0;
+  background: transparent;
+
+  img {
+    color: #ffffff;
+    height: 24px;
+    width: 24px;
+    font-size: 24px;
+  }
 `;
