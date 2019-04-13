@@ -46,11 +46,10 @@ export const Button = styled.button`
   padding: 10px;
   color: #fff;
 
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  width: 50px;
+  height: 50px;
 `;
 
 export const Icon = styled(ArrowIcon)`
-  padding: 5px;
+  padding: 6px;
 `;

@@ -1,24 +1,21 @@
 import React from 'react';
-import ArrowIcon from '@material-ui/icons/ArrowForwardIos';
 
 import {
   Container, Image, Info, Button, Icon,
 } from './styles';
-import Foto from '../../assets/meetup1.jpg';
 
 const MeetupItem = ({ meetup }) => (
   <Container>
-    <Image src={Foto} alt="Meetup image" />
+    <Image src={`http://localhost:3001/files/${meetup.cover}`} alt="Meetup image" />
 
     <Info>
       <div>
         <strong>{meetup.title}</strong>
 
-        <small>{`${meetup.members} membros`}</small>
+        <small>{`${meetup.subscribers} membros`}</small>
       </div>
 
       <Button>
-        {/* <ArrowIcon /> */}
         <Icon />
       </Button>
     </Info>
