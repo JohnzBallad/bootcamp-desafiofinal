@@ -18,7 +18,6 @@ export const Types = {
 
 const INITIAL_STATE = {
   info: {},
-  token: '',
   loading: false,
   error: null,
 };
@@ -29,14 +28,12 @@ export default function user(state = INITIAL_STATE, action) {
       return {
         ...state,
         loading: true,
-        // data: action.payload.credentials,
       };
     case Types.USER_LOGIN_SUCCESS:
       return {
         ...state,
         loading: false,
         info: action.payload.info,
-        token: action.payload.token,
       };
     case Types.USER_LOGIN_FAILURE:
       return {
@@ -74,9 +71,9 @@ export const Creators = {
     type: Types.USER_LOGIN_REQUEST,
     payload: { credentials },
   }),
-  userLoginSuccess: (info, token) => ({
+  userLoginSuccess: info => ({
     type: Types.USER_LOGIN_SUCCESS,
-    payload: { info, token },
+    payload: { info },
   }),
   userLoginFailure: error => ({
     type: Types.USER_LOGIN_FAILURE,
