@@ -11,7 +11,7 @@ import {
 import { Creators as UserActions } from '../../store/ducks/user';
 
 import Logo from '../../assets/logo.svg';
-import Loading from '../../components/Loading';
+// import Loading from '../../components/Loading';
 
 class Signin extends Component {
   static propTypes = {
@@ -37,7 +37,7 @@ class Signin extends Component {
 
   render() {
     const { email, password } = this.state;
-    const { loading } = this.props.user;
+    // const { loading } = this.props.user;
 
     return (
       <Container>
