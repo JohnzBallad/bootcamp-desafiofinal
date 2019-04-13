@@ -4,9 +4,8 @@ export const Container = styled.div`
   height: 100%;
 
   display: flex;
-`;
+  flex-direction: column;
 
-export const MeetupList = styled.div`
   margin-top: 50px;
   margin-left: 255px;
 
@@ -16,4 +15,11 @@ export const MeetupList = styled.div`
       margin-top: 35px;
     }
   }
+`;
+
+export const MeetupList = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+
+  margin-right: 35px;
 `;

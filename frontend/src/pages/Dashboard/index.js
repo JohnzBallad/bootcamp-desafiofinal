@@ -17,6 +17,35 @@ class Dashboard extends Component {
         title: 'Meetup React Native',
         members: 120,
       },
+
+      {
+        image: Foto,
+        title: 'Meetup React Native',
+        members: 120,
+      },
+
+      {
+        image: Foto,
+        title: 'Meetup React Native',
+        members: 120,
+      },
+      {
+        image: Foto,
+        title: 'Meetup React Native',
+        members: 120,
+      },
+
+      {
+        image: Foto,
+        title: 'Meetup React Native',
+        members: 120,
+      },
+
+      {
+        image: Foto,
+        title: 'Meetup React Native',
+        members: 120,
+      },
     ],
 
     next: [
@@ -25,9 +54,63 @@ class Dashboard extends Component {
         title: 'Meetup React Native',
         members: 120,
       },
+      {
+        image: Foto,
+        title: 'Meetup React Native',
+        members: 120,
+      },
+      {
+        image: Foto,
+        title: 'Meetup React Native',
+        members: 120,
+      },
+      {
+        image: Foto,
+        title: 'Meetup React Native',
+        members: 120,
+      },
+
+      {
+        image: Foto,
+        title: 'Meetup React Native',
+        members: 120,
+      },
+
+      {
+        image: Foto,
+        title: 'Meetup React Native',
+        members: 120,
+      },
     ],
 
     recommended: [
+      {
+        image: Foto,
+        title: 'Meetup React Native',
+        members: 120,
+      },
+      {
+        image: Foto,
+        title: 'Meetup React Native',
+        members: 120,
+      },
+      {
+        image: Foto,
+        title: 'Meetup React Native',
+        members: 120,
+      },
+      {
+        image: Foto,
+        title: 'Meetup React Native',
+        members: 120,
+      },
+
+      {
+        image: Foto,
+        title: 'Meetup React Native',
+        members: 120,
+      },
+
       {
         image: Foto,
         title: 'Meetup React Native',
@@ -44,18 +127,22 @@ class Dashboard extends Component {
         <Header />
 
         <Container>
+          <h3>Inscrições</h3>
           <MeetupList>
-            <h3>Inscrições</h3>
             {enrolled.map(meetup => (
               <MeetupItem key={Math.random()} meetup={meetup} />
             ))}
+          </MeetupList>
 
-            <h3>Próximos meetups</h3>
+          <h3>Próximos meetups</h3>
+          <MeetupList>
             {next.map(meetup => (
               <MeetupItem key={Math.random()} meetup={meetup} />
             ))}
+          </MeetupList>
 
-            <h3>Recomendados</h3>
+          <h3>Recomendados</h3>
+          <MeetupList>
             {recommended.map(meetup => (
               <MeetupItem key={Math.random()} meetup={meetup} />
             ))}
