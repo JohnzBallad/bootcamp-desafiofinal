@@ -7,15 +7,13 @@ import { Creators as PreferenceActions } from '../ducks/preference';
 
 export function* setPreference(action) {
   try {
-    const token = localStorage.getItem('@meetapp.usertoken');
+    const token = yield select(state => state.user.token);
 
     const headers = {
       Authorization: `Bearer ${token}`,
     };
 
     const { data } = yield call(api.post, '/welcome', action.payload.preferences, { headers });
-
-    console.log(data);
 
     // Obtem as info do usuário que está no localStorage
     const userInfo = JSON.parse(localStorage.getItem('@meetapp.userinfo'));
@@ -29,7 +27,7 @@ export function* setPreference(action) {
     yield put(PreferenceActions.setPreferenceSuccess(data));
 
     // Move para o dashboard
-    // yield put(push('/'));
+    yield put(push('/dashboard'));
   } catch (err) {
     yield put(PreferenceActions.setPreferenceFailure(err.response.data.error));
     toast.error(err.response.data.error, {
