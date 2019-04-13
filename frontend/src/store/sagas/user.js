@@ -28,11 +28,13 @@ export function* userLogin(action) {
       position: toast.POSITION.TOP_CENTER,
     });
 
-    yield put(UserActions.userLoginSuccess(data.user, data.token));
+    yield put(UserActions.userLoginSuccess(data.user));
 
     if (data.user.first_time) {
       yield put(push('/welcome'));
     }
+
+    yield put(push('/dashboard'));
   } catch (err) {
     yield put(UserActions.userLoginFailure(err.response.data.error));
     toast.error(err.response.data.error, {
