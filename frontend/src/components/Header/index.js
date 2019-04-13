@@ -1,10 +1,10 @@
 import React from 'react';
+import PersonIcon from '@material-ui/icons/PersonOutlineOutlined';
 
 import {
   Logo, Container, Button, LeftWrapper, Person,
 } from './styles';
 import WhiteLogo from '../../assets/logo-white.svg';
-import PersonImage from '../../assets/person.svg';
 
 const Header = () => (
   <Container>
@@ -19,7 +19,7 @@ const Header = () => (
     </LeftWrapper>
 
     <Person>
-      <img src={PersonImage} alt="Person" />
+      <PersonIcon />
     </Person>
   </Container>
 );

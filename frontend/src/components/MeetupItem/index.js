@@ -1,7 +1,8 @@
 import React from 'react';
+import ArrowIcon from '@material-ui/icons/ArrowForwardIos';
 
 import {
-  Container, Image, Info, Button,
+  Container, Image, Info, Button, Icon,
 } from './styles';
 import Foto from '../../assets/meetup1.jpg';
 
@@ -16,7 +17,10 @@ const MeetupItem = ({ meetup }) => (
         <small>{`${meetup.members} membros`}</small>
       </div>
 
-      <Button>{'>'}</Button>
+      <Button>
+        {/* <ArrowIcon /> */}
+        <Icon />
+      </Button>
     </Info>
   </Container>
 );

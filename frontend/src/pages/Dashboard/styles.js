@@ -20,6 +20,4 @@ export const Container = styled.div`
 export const MeetupList = styled.div`
   display: flex;
   flex-wrap: wrap;
-
-  margin-right: 35px;
 `;

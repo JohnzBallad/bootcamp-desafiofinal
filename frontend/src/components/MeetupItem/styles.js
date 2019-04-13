@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import ArrowIcon from '@material-ui/icons/ArrowForwardIos';
 
 export const Container = styled.div`
   display: flex;
@@ -42,7 +43,14 @@ export const Button = styled.button`
   border: 0;
   background: #e5556e;
   border-radius: 50%;
-  padding: 10px 15px;
-
+  padding: 10px;
   color: #fff;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const Icon = styled(ArrowIcon)`
+  padding: 5px;
 `;
