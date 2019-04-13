@@ -1,126 +1,63 @@
 import React, { Fragment, Component } from 'react';
-
+import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import Header from '../../components/Header';
 import MeetupItem from '../../components/MeetupItem';
-import Foto from '../../assets/meetup1.jpg';
 
 import { Container, MeetupList } from './styles';
 
+import { Creators as MeetupActions } from '../../store/ducks/meetup';
+
 class Dashboard extends Component {
-  state = {
-    enrolled: [
-      {
-        image: Foto,
-        title: 'Meetup React Native',
-        members: 120,
-      },
-
-      {
-        image: Foto,
-        title: 'Meetup React Native',
-        members: 120,
-      },
-
-      {
-        image: Foto,
-        title: 'Meetup React Native',
-        members: 120,
-      },
-      {
-        image: Foto,
-        title: 'Meetup React Native',
-        members: 120,
-      },
-
-      {
-        image: Foto,
-        title: 'Meetup React Native',
-        members: 120,
-      },
-
-      {
-        image: Foto,
-        title: 'Meetup React Native',
-        members: 120,
-      },
-    ],
-
-    next: [
-      {
-        image: Foto,
-        title: 'Meetup React Native',
-        members: 120,
-      },
-      {
-        image: Foto,
-        title: 'Meetup React Native',
-        members: 120,
-      },
-      {
-        image: Foto,
-        title: 'Meetup React Native',
-        members: 120,
-      },
-      {
-        image: Foto,
-        title: 'Meetup React Native',
-        members: 120,
-      },
-
-      {
-        image: Foto,
-        title: 'Meetup React Native',
-        members: 120,
-      },
-
-      {
-        image: Foto,
-        title: 'Meetup React Native',
-        members: 120,
-      },
-    ],
-
-    recommended: [
-      {
-        image: Foto,
-        title: 'Meetup React Native',
-        members: 120,
-      },
-      {
-        image: Foto,
-        title: 'Meetup React Native',
-        members: 120,
-      },
-      {
-        image: Foto,
-        title: 'Meetup React Native',
-        members: 120,
-      },
-      {
-        image: Foto,
-        title: 'Meetup React Native',
-        members: 120,
-      },
-
-      {
-        image: Foto,
-        title: 'Meetup React Native',
-        members: 120,
-      },
-
-      {
-        image: Foto,
-        title: 'Meetup React Native',
-        members: 120,
-      },
-    ],
+  static propTypes = {
+    loadEnrolledRequest: PropTypes.func.isRequired,
+    loadNotEnrolledRequest: PropTypes.func.isRequired,
+    loadRecommendedRequest: PropTypes.func.isRequired,
+    history: PropTypes.shape({
+      push: PropTypes.func,
+    }).isRequired,
+    meetup: PropTypes.shape({
+      enrolled: PropTypes.arrayOf(
+        PropTypes.shape({
+          id: PropTypes.number,
+        }),
+      ),
+      notEnrolled: PropTypes.arrayOf(
+        PropTypes.shape({
+          id: PropTypes.number,
+        }),
+      ),
+      recommended: PropTypes.arrayOf(
+        PropTypes.shape({
+          id: PropTypes.number,
+        }),
+      ),
+    }).isRequired,
   };
 
+  componentDidMount() {
+    const {
+      loadEnrolledRequest,
+      loadNotEnrolledRequest,
+      history,
+      loadRecommendedRequest,
+    } = this.props;
+
+    const token = localStorage.getItem('@meetapp.usertoken');
+
+    if (!token || !token.length) {
+      history.push('/');
+    } else {
+      loadEnrolledRequest();
+      loadNotEnrolledRequest();
+      loadRecommendedRequest();
+    }
+  }
+
   render() {
-    const { enrolled, next, recommended } = this.state;
+    const { meetup: meetups } = this.props;
 
     return (
       <Fragment>
@@ -129,22 +66,22 @@ class Dashboard extends Component {
         <Container>
           <h3>Inscrições</h3>
           <MeetupList>
-            {enrolled.map(meetup => (
-              <MeetupItem key={Math.random()} meetup={meetup} />
+            {meetups.enrolled.map(meetup => (
+              <MeetupItem key={meetup.id} meetup={meetup} />
             ))}
           </MeetupList>
 
           <h3>Próximos meetups</h3>
           <MeetupList>
-            {next.map(meetup => (
-              <MeetupItem key={Math.random()} meetup={meetup} />
+            {meetups.notEnrolled.map(meetup => (
+              <MeetupItem key={meetup.id} meetup={meetup} />
             ))}
           </MeetupList>
 
           <h3>Recomendados</h3>
           <MeetupList>
-            {recommended.map(meetup => (
-              <MeetupItem key={Math.random()} meetup={meetup} />
+            {meetups.recommended.map(meetup => (
+              <MeetupItem key={meetup.id} meetup={meetup} />
             ))}
           </MeetupList>
         </Container>
@@ -153,12 +90,14 @@ class Dashboard extends Component {
   }
 }
 
-const mapStateToProps = state => ({});
+const mapStateToProps = state => ({
+  meetup: state.meetup,
+  token: state.user.token,
+});
 
-// const mapDispatchToProps = dispatch =>
-//   bindActionCreators(Actions, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators(MeetupActions, dispatch);
 
 export default connect(
   mapStateToProps,
-  // mapDispatchToProps
+  mapDispatchToProps,
 )(Dashboard);
