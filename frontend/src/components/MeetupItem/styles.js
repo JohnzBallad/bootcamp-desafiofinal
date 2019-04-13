@@ -3,10 +3,11 @@ import styled from 'styled-components';
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
+
   margin-bottom: 10px;
+  margin-right: 20px;
   width: 290px;
   border-radius: 6px;
-
   background: #fff;
 `;
 
