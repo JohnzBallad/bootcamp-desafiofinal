@@ -1,10 +1,13 @@
-const { User } = require('../models')
+const { User, Preference } = require('../models')
 
 class SessionController {
   async store (req, res) {
     const { email, password } = req.body
 
-    const user = await User.findOne({ where: { email } })
+    const user = await User.findOne({
+      include: [Preference],
+      where: { email }
+    })
 
     if (!user) {
       return res.status(400).json({ error: 'User not found' })
