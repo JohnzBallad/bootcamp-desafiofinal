@@ -1,4 +1,4 @@
-import { call, put, select } from 'redux-saga/effects';
+import { call, put } from 'redux-saga/effects';
 import { toast } from 'react-toastify';
 import { push } from 'connected-react-router';
 
@@ -7,7 +7,7 @@ import { Creators as PreferenceActions } from '../ducks/preference';
 
 export function* setPreference(action) {
   try {
-    const token = yield select(state => state.user.token);
+    const token = localStorage.getItem('@meetapp.usertoken');
 
     const headers = {
       Authorization: `Bearer ${token}`,
