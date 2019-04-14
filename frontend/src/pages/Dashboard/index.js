@@ -1,9 +1,8 @@
-import React, { Fragment, Component } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import Header from '../../components/Header';
 import MeetupItem from '../../components/MeetupItem';
 
 import { Container, MeetupList } from './styles';
@@ -38,6 +37,10 @@ class Dashboard extends Component {
   };
 
   componentDidMount() {
+    this.loadStuffs();
+  }
+
+  loadStuffs = () => {
     const {
       loadEnrolledRequest,
       loadNotEnrolledRequest,
@@ -54,38 +57,34 @@ class Dashboard extends Component {
       loadNotEnrolledRequest();
       loadRecommendedRequest();
     }
-  }
+  };
 
   render() {
-    const { meetup: meetups } = this.props;
+    const { meetup: meetups, visible } = this.props;
 
     return (
-      <Fragment>
-        <Header />
+      <Container>
+        <h3>Inscrições</h3>
+        <MeetupList>
+          {meetups.enrolled.map(meetup => (
+            <MeetupItem key={meetup.id} meetup={meetup} />
+          ))}
+        </MeetupList>
 
-        <Container>
-          <h3>Inscrições</h3>
-          <MeetupList>
-            {meetups.enrolled.map(meetup => (
-              <MeetupItem key={meetup.id} meetup={meetup} />
-            ))}
-          </MeetupList>
+        <h3>Próximos meetups</h3>
+        <MeetupList>
+          {meetups.notEnrolled.map(meetup => (
+            <MeetupItem key={meetup.id} meetup={meetup} />
+          ))}
+        </MeetupList>
 
-          <h3>Próximos meetups</h3>
-          <MeetupList>
-            {meetups.notEnrolled.map(meetup => (
-              <MeetupItem key={meetup.id} meetup={meetup} />
-            ))}
-          </MeetupList>
-
-          <h3>Recomendados</h3>
-          <MeetupList>
-            {meetups.recommended.map(meetup => (
-              <MeetupItem key={meetup.id} meetup={meetup} />
-            ))}
-          </MeetupList>
-        </Container>
-      </Fragment>
+        <h3>Recomendados</h3>
+        <MeetupList>
+          {meetups.recommended.map(meetup => (
+            <MeetupItem key={meetup.id} meetup={meetup} />
+          ))}
+        </MeetupList>
+      </Container>
     );
   }
 }
@@ -93,6 +92,7 @@ class Dashboard extends Component {
 const mapStateToProps = state => ({
   meetup: state.meetup,
   token: state.user.token,
+  visible: state.search.visible,
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators(MeetupActions, dispatch);
