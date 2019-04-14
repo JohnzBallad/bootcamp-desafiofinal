@@ -43,9 +43,17 @@ class Header extends Component {
     }
   };
 
-  handleNewMeetup = (e) => {
+  handleNewMeetup = () => {
     // const { history } = this.props;
     // history.push('/dashboard/meetup/create');
+  };
+
+  handleGoProfile = () => {
+    const { history, location } = this.props;
+
+    if (location.pathname !== '/profile') {
+      history.push('/profile');
+    }
   };
 
   render() {
@@ -67,7 +75,7 @@ class Header extends Component {
           </Button>
         </LeftWrapper>
 
-        <Person>
+        <Person onClick={this.handleGoProfile} type="button">
           <PersonIcon />
         </Person>
       </Container>
