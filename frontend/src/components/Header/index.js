@@ -44,8 +44,8 @@ class Header extends Component {
   };
 
   handleNewMeetup = () => {
-    // const { history } = this.props;
-    // history.push('/dashboard/meetup/create');
+    const { history } = this.props;
+    history.push('/meetup/create');
   };
 
   handleGoProfile = () => {
