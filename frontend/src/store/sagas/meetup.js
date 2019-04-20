@@ -72,7 +72,7 @@ export function* createMeetup(action) {
     data.append('cover', meetupInfo.uploadedFile, meetupInfo.uploadedFile.name);
     data.append('when', meetupInfo.when);
 
-    console.log(JSON.stringify(meetupInfo.preferences));
+    // console.log(JSON.stringify(meetupInfo.preferences));
 
     const response = yield call(api.post, '/meetups', data, { headers });
 

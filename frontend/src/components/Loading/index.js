@@ -1,6 +1,6 @@
 import React from 'react';
 
-import LoadingIcon from '../../assets/loading.svg';
+import LoadingIcon from '@material-ui/icons/Cached';
 
 import { Spinner } from './styles';
 

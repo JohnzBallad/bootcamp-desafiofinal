@@ -4,6 +4,8 @@ import React, { Component } from 'react';
 import Dropzone from 'react-dropzone';
 import FilePreview from 'react-preview-file';
 import PropTypes from 'prop-types';
+import DatePicker from 'react-datepicker';
+import moment from 'moment';
 
 import Camera from '@material-ui/icons/CameraAlt';
 
@@ -31,7 +33,8 @@ class CreateMeetup extends Component {
     devops: false,
     gestao: false,
     marketing: false,
-    when: '2019-04-20 13:14:20',
+    // when: '2019-04-29 13:14:20',
+    when: new Date(),
   };
 
   onImageDrop = (files) => {
@@ -87,8 +90,12 @@ class CreateMeetup extends Component {
       description,
       location,
       uploadedFile,
-      when,
+      when: moment(when).format('YYYY-MM-DD hh:mm:00'),
     });
+  };
+
+  handleDateChange = (date) => {
+    this.setState({ when: date });
   };
 
   render() {
@@ -102,6 +109,7 @@ class CreateMeetup extends Component {
       title,
       description,
       location,
+      when,
     } = this.state;
 
     return (
@@ -125,7 +133,16 @@ class CreateMeetup extends Component {
             onChange={e => this.setState({ description: e.target.value })}
           />
 
-          {/* <Label>Quando?</Label> */}
+          <Label>Quando?</Label>
+          <DatePicker
+            selected={when}
+            onChange={this.handleDateChange}
+            timeInputLabel="Horário:"
+            showTimeInput
+            minDate={new Date()}
+            disabledKeyboardNavigation
+            dateFormat="yyyy-MM-dd h:mm"
+          />
 
           <Label>Imagem</Label>
           <Dropzone

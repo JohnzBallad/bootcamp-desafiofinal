@@ -11,6 +11,9 @@ import { Creators as MeetupActions } from '../../store/ducks/meetup';
 
 class Meetup extends Component {
   static propTypes = {
+    history: PropTypes.shape({
+      push: PropTypes.func,
+    }).isRequired,
     location: PropTypes.shape({
       state: PropTypes.shape({
         meetup: PropTypes.shape({
@@ -23,30 +26,55 @@ class Meetup extends Component {
     subscribeRequest: PropTypes.func.isRequired,
   };
 
-  state = {};
+  state = {
+    meetup: {},
+  };
+
+  componentWillMount() {
+    const { location, history } = this.props;
+
+    // console.log(this.props);
+
+    if (!location.state) {
+      history.push('/dashboard');
+    } else {
+      this.setState({
+        meetup: location.state.meetup,
+      });
+    }
+  }
 
   handleSubscribe = () => {
     // console.log(this.props);
 
-    const {
-      subscribeRequest,
-      location: {
-        state: { meetup },
-      },
-    } = this.props;
+    const { subscribeRequest } = this.props;
+
+    const { meetup } = this.state;
 
     subscribeRequest(meetup);
   };
 
   render() {
-    const {
-      location: {
-        state: { meetup },
-      },
-    } = this.props;
+    const { meetup } = this.state;
     return (
       <Container>
-        <img src={`http://localhost:3001/files/${meetup.cover}`} alt="meetup cover" />
+        {/*
+          Motivo pelo qual existe a condição abaixo:
+
+          Quando o usuário tentar alterar a URL do navegador,
+          por exemplo: colocando um meetup id que não exista,
+          meetup.cover não existirá, entretanto o GET para exibir a imagem
+          irá ocorrer e isso é chato.
+          Então eu troco a imagem por um p, que o usuário nem irá ver
+          (pq ele será redirecionado para /dashboard), só pra evitar o GET ao servidor.
+
+        */}
+
+        {meetup.cover ? (
+          <img src={`http://localhost:3001/files/${meetup.cover}`} alt="meetup cover" />
+        ) : (
+          <p>Não há uma imagem</p>
+        )}
 
         <MeetupInfo>
           <h3>{meetup.title}</h3>

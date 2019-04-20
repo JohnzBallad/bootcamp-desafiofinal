@@ -38,7 +38,11 @@ class MeetupItem extends Component {
           <div>
             <strong>{meetup.title}</strong>
 
-            <small>{`${meetup.subscribers} membros`}</small>
+            <small>
+              {meetup.subscribers === 1
+                ? `${meetup.subscribers} membro`
+                : `${meetup.subscribers} membros`}
+            </small>
           </div>
 
           <Button onClick={this.handleClick}>
