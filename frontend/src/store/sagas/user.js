@@ -8,7 +8,7 @@ import { Creators as UserActions } from '../ducks/user';
 export function* userLogin(action) {
   try {
     const { data } = yield call(api.post, '/sessions', action.payload.credentials);
-    console.log(data);
+    // console.log(data);
 
     // Salva o token no localStorage do browser.
     localStorage.setItem('@meetapp.usertoken', data.token);
