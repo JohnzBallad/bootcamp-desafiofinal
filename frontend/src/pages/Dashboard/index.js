@@ -60,7 +60,7 @@ class Dashboard extends Component {
   };
 
   render() {
-    const { meetup: meetups, visible } = this.props;
+    const { meetup: meetups } = this.props;
 
     return (
       <Container>

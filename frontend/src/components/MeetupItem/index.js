@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router';
 
 import {
   Container, Image, Info, Button, Icon,
@@ -12,10 +13,18 @@ class MeetupItem extends Component {
       title: PropTypes.string,
       subscribers: PropTypes.number,
     }).isRequired,
+    history: PropTypes.shape({
+      push: PropTypes.func,
+    }).isRequired,
   };
 
   handleClick = () => {
-    console.log('Something');
+    // console.log(this.props);
+    const { history, meetup } = this.props;
+    history.push({
+      pathname: `/dashboard/meetup/${meetup.id}`,
+      state: { meetup },
+    });
   };
 
   render() {
@@ -41,4 +50,4 @@ class MeetupItem extends Component {
   }
 }
 
-export default MeetupItem;
+export default withRouter(MeetupItem);

@@ -8,7 +8,11 @@ import { setPreference } from './preference';
 
 import { Types as MeetupTypes } from '../ducks/meetup';
 import {
-  loadEnrolled, loadNotEnrolled, loadRecommended, createMeetup,
+  loadEnrolled,
+  loadNotEnrolled,
+  loadRecommended,
+  createMeetup,
+  subscribeToMeetup,
 } from './meetup';
 
 export default function* rootSaga() {
@@ -21,5 +25,6 @@ export default function* rootSaga() {
     takeLatest(MeetupTypes.MEETUP_NOT_ENROLLED_REQUEST, loadNotEnrolled),
     takeLatest(MeetupTypes.MEETUP_RECOMMENDED_REQUEST, loadRecommended),
     takeLatest(MeetupTypes.MEETUP_CREATE_REQUEST, createMeetup),
+    takeLatest(MeetupTypes.MEETUP_SUBSCRIBE_REQUEST, subscribeToMeetup),
   ]);
 }

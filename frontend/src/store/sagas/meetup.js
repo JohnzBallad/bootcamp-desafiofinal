@@ -1,7 +1,9 @@
 import { call, put } from 'redux-saga/effects';
 import { push } from 'connected-react-router';
+import { toast } from 'react-toastify';
+
 import api from '../../services/api';
-import meetup, { Creators as MeetupActions } from '../ducks/meetup';
+import { Creators as MeetupActions } from '../ducks/meetup';
 
 export function* loadEnrolled() {
   try {
@@ -80,5 +82,32 @@ export function* createMeetup(action) {
     yield put(push('/dashboard'));
   } catch (err) {
     yield put(MeetupActions.createMeetupFailure(err.response.data.error));
+  }
+}
+
+export function* subscribeToMeetup(action) {
+  try {
+    const token = localStorage.getItem('@meetapp.usertoken');
+
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+
+    // console.log(action.payload.meetupToSub);
+
+    yield call(api.post, `/meetups/${action.payload.meetupToSub.id}/subscribe`, {}, { headers });
+
+    // Dá o retorno ao redux
+    yield put(MeetupActions.subscribeSuccess(action.payload.meetupToSub));
+
+    // Move para o dashboard
+    yield put(push('/dashboard'));
+  } catch (err) {
+    yield put(MeetupActions.subscribeFailure(err.response.data.error));
+    toast.error(err.response.data.error, {
+      position: toast.POSITION.TOP_RIGHT,
+    });
+
+    // console.tron.log(err);
   }
 }

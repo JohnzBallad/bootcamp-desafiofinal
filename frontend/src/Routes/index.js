@@ -6,6 +6,7 @@ import Signin from '../pages/Signin';
 import Signup from '../pages/Signup';
 import FirstTime from '../pages/FirstTime';
 import Dashboard from '../pages/Dashboard';
+import Meetup from '../pages/Meetup';
 import Profile from '../pages/Profile';
 import CreateMeetup from '../pages/CreateMeetup';
 import Header from '../components/Header';
@@ -21,7 +22,8 @@ const Routes = () => (
           <Route path="/signup" component={Signup} />
           <Route path="/welcome" component={FirstTime} />
           <Header />
-          <Route path="/dashboard" component={Dashboard} />
+          <Route exact path="/dashboard" component={Dashboard} />
+          <Route path="/dashboard/meetup/:id" component={Meetup} />
           <Route path="/profile" component={Profile} />
           <Route path="/meetup/create" component={CreateMeetup} />
         </ConnectedRouter>
