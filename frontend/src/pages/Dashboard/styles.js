@@ -20,4 +20,8 @@ export const Container = styled.div`
 export const MeetupList = styled.div`
   display: flex;
   flex-wrap: wrap;
+
+  p {
+    opacity: 0.8;
+  }
 `;

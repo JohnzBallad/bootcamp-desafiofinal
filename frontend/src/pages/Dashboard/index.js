@@ -59,6 +59,16 @@ class Dashboard extends Component {
     }
   };
 
+  renderNotEnrolled = () => {
+    const { meetup: meetups } = this.props;
+    return meetups.notEnrolled.map(meetup => <MeetupItem key={meetup.id} meetup={meetup} />);
+  };
+
+  renderRecommended = () => {
+    const { meetup: meetups } = this.props;
+    return meetups.recommended.map(meetup => <MeetupItem key={meetup.id} meetup={meetup} />);
+  };
+
   render() {
     const { meetup: meetups } = this.props;
 
@@ -73,16 +83,27 @@ class Dashboard extends Component {
 
         <h3>Próximos meetups</h3>
         <MeetupList>
-          {meetups.notEnrolled.map(meetup => (
+          {/* {meetups.notEnrolled.map(meetup => (
             <MeetupItem key={meetup.id} meetup={meetup} />
-          ))}
+          ))} */}
+          {!meetups.notEnrolled.length ? (
+            <p>Não está rolando nenhum meetup por agora... :(</p>
+          ) : (
+            this.renderNotEnrolled()
+          )}
         </MeetupList>
 
         <h3>Recomendados</h3>
         <MeetupList>
-          {meetups.recommended.map(meetup => (
+          {/* {meetups.recommended.map(meetup => (
             <MeetupItem key={meetup.id} meetup={meetup} />
-          ))}
+          ))} */}
+
+          {!meetups.recommended.length ? (
+            <p>Não está rolando nenhum meetup especial por enquanto... :(</p>
+          ) : (
+            this.renderRecommended()
+          )}
         </MeetupList>
       </Container>
     );
