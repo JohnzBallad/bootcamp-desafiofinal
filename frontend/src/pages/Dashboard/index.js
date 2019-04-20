@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import MeetupItem from '../../components/MeetupItem';
+import Search from '../../components/Search';
 
 import { Container, MeetupList } from './styles';
 
@@ -34,6 +35,7 @@ class Dashboard extends Component {
         }),
       ),
     }).isRequired,
+    visible: PropTypes.bool.isRequired,
   };
 
   componentDidMount() {
@@ -70,10 +72,12 @@ class Dashboard extends Component {
   };
 
   render() {
-    const { meetup: meetups } = this.props;
+    const { meetup: meetups, visible } = this.props;
 
     return (
       <Container>
+        {visible ? <Search /> : null}
+
         <h3>Inscrições</h3>
         <MeetupList>
           {meetups.enrolled.map(meetup => (
