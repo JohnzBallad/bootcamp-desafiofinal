@@ -1,25 +1,44 @@
-import React from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import {
   Container, Image, Info, Button, Icon,
 } from './styles';
 
-const MeetupItem = ({ meetup }) => (
-  <Container>
-    <Image src={`http://localhost:3001/files/${meetup.cover}`} alt="Meetup image" />
+class MeetupItem extends Component {
+  static propTypes = {
+    meetup: PropTypes.shape({
+      cover: PropTypes.string,
+      title: PropTypes.string,
+      subscribers: PropTypes.number,
+    }).isRequired,
+  };
 
-    <Info>
-      <div>
-        <strong>{meetup.title}</strong>
+  handleClick = () => {
+    console.log('Something');
+  };
 
-        <small>{`${meetup.subscribers} membros`}</small>
-      </div>
+  render() {
+    const { meetup } = this.props;
 
-      <Button>
-        <Icon />
-      </Button>
-    </Info>
-  </Container>
-);
+    return (
+      <Container>
+        <Image src={`http://localhost:3001/files/${meetup.cover}`} alt="Meetup image" />
+
+        <Info>
+          <div>
+            <strong>{meetup.title}</strong>
+
+            <small>{`${meetup.subscribers} membros`}</small>
+          </div>
+
+          <Button onClick={this.handleClick}>
+            <Icon />
+          </Button>
+        </Info>
+      </Container>
+    );
+  }
+}
 
 export default MeetupItem;
