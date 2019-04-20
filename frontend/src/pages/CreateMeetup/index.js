@@ -15,7 +15,7 @@ import {
   Container, Form, Input, Button, Checkbox, Label, File, Preview,
 } from './styles';
 
-class Meetup extends Component {
+class CreateMeetup extends Component {
   static propTypes = {
     createMeetupRequest: PropTypes.func.isRequired,
   };
@@ -233,4 +233,4 @@ const mapDispatchToProps = dispatch => bindActionCreators(MeetupActions, dispatc
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(Meetup);
+)(CreateMeetup);
