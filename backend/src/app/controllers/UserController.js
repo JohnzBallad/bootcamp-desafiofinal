@@ -20,7 +20,10 @@ class UserController {
       preferences: { frontend, backend, mobile, devops, gestao, marketing }
     } = req.body
 
-    const user = await User.findOne({ where: { id: req.userId } })
+    const user = await User.findOne({
+      include: [Preference],
+      where: { id: req.userId }
+    })
 
     user.name = name
     user.password = password
@@ -40,7 +43,9 @@ class UserController {
       }
     )
 
-    return res.json({ user, udapted: newPreference })
+    await user.reload()
+
+    return res.json({ user })
   }
 }
 
