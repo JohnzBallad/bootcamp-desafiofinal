@@ -29,15 +29,19 @@ export const LeftWrapper = styled.div`
   display: flex;
 `;
 
-export const Person = styled.button`
+export const Icon = styled.button`
   border: 0;
   outline: 0;
   background: transparent;
 
-  img {
-    color: #ffffff;
+  svg {
+    color: #fff;
     height: 24px;
     width: 24px;
     font-size: 24px;
+  }
+
+  &:first-child {
+    margin-right: 10px;
   }
 `;

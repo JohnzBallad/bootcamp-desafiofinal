@@ -3,12 +3,14 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
+
 import PersonIcon from '@material-ui/icons/PersonOutlineOutlined';
+import LogoutIcon from '@material-ui/icons/ExitToApp';
 
 import { Creators as SearchActions } from '../../store/ducks/search';
 
 import {
-  Logo, Container, Button, LeftWrapper, Person,
+  Logo, Container, Button, LeftWrapper, Icon,
 } from './styles';
 import WhiteLogo from '../../assets/logo-white.svg';
 
@@ -56,6 +58,14 @@ class Header extends Component {
     }
   };
 
+  handleLogout = () => {
+    localStorage.removeItem('@meetapp.userinfo');
+    localStorage.removeItem('@meetapp.usertoken');
+
+    const { history } = this.props;
+    history.push('/');
+  };
+
   render() {
     return (
       <Container>
@@ -75,9 +85,15 @@ class Header extends Component {
           </Button>
         </LeftWrapper>
 
-        <Person onClick={this.handleGoProfile} type="button">
-          <PersonIcon />
-        </Person>
+        <span>
+          <Icon onClick={this.handleGoProfile} type="button">
+            <PersonIcon />
+          </Icon>
+
+          <Icon onClick={this.handleLogout} type="button">
+            <LogoutIcon />
+          </Icon>
+        </span>
       </Container>
     );
   }
