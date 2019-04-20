@@ -31,8 +31,17 @@ class Profile extends Component {
 
   componentDidMount() {
     const userInfo = JSON.parse(localStorage.getItem('@meetapp.userinfo'));
+    const { preferences } = userInfo;
 
-    this.setState({ name: userInfo.name });
+    this.setState({
+      name: userInfo.name,
+      frontend: preferences.frontend,
+      backend: preferences.backend,
+      gestao: preferences.gestao,
+      mobile: preferences.mobile,
+      marketing: preferences.marketing,
+      devops: preferences.devops,
+    });
   }
 
   handleFormSubmit = (e) => {
