@@ -3,17 +3,23 @@
 import React, { Component } from 'react';
 import Dropzone from 'react-dropzone';
 import FilePreview from 'react-preview-file';
+import PropTypes from 'prop-types';
+
 import Camera from '@material-ui/icons/CameraAlt';
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Creators as UserActions } from '../../store/ducks/user';
+import { Creators as MeetupActions } from '../../store/ducks/meetup';
 
 import {
   Container, Form, Input, Button, Checkbox, Label, File, Preview,
 } from './styles';
 
 class Meetup extends Component {
+  static propTypes = {
+    createMeetupRequest: PropTypes.func.isRequired,
+  };
+
   state = {
     uploadedFile: {},
     title: '',
@@ -25,6 +31,7 @@ class Meetup extends Component {
     devops: false,
     gestao: false,
     marketing: false,
+    when: '2019-04-20 13:14:20',
   };
 
   onImageDrop = (files) => {
@@ -48,6 +55,8 @@ class Meetup extends Component {
   handleFormSubmit = (e) => {
     e.preventDefault();
 
+    const { createMeetupRequest } = this.props;
+
     const {
       frontend,
       backend,
@@ -59,7 +68,27 @@ class Meetup extends Component {
       description,
       location,
       uploadedFile,
+      when,
     } = this.state;
+
+    const preferences = {
+      frontend,
+      backend,
+      devops,
+      mobile,
+      marketing,
+      gestao,
+    };
+
+    // console.log(uploadedFile);
+    createMeetupRequest({
+      preferences,
+      title,
+      description,
+      location,
+      uploadedFile,
+      when,
+    });
   };
 
   render() {
@@ -95,6 +124,8 @@ class Meetup extends Component {
             placeholderTextColor="#b3b3b3"
             onChange={e => this.setState({ description: e.target.value })}
           />
+
+          {/* <Label>Quando?</Label> */}
 
           <Label>Imagem</Label>
           <Dropzone
@@ -193,11 +224,11 @@ class Meetup extends Component {
   }
 }
 
-const mapDispatchToProps = dispatch => bindActionCreators(UserActions, dispatch);
-
 const mapStateToProps = state => ({
-  user: state.user,
+  meetup: state.meetup,
 });
+
+const mapDispatchToProps = dispatch => bindActionCreators(MeetupActions, dispatch);
 
 export default connect(
   mapStateToProps,

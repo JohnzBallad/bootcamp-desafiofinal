@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import Dropzone from 'react-dropzone';
 
 export const Container = styled.div`
   display: flex;

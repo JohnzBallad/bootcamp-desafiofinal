@@ -1,6 +1,7 @@
 import { call, put } from 'redux-saga/effects';
+import { push } from 'connected-react-router';
 import api from '../../services/api';
-import { Creators as MeetupActions } from '../ducks/meetup';
+import meetup, { Creators as MeetupActions } from '../ducks/meetup';
 
 export function* loadEnrolled() {
   try {
@@ -47,5 +48,37 @@ export function* loadRecommended() {
     yield put(MeetupActions.loadRecommendedSuccess(data));
   } catch (err) {
     yield put(MeetupActions.loadRecommendedFailure(err.response.data.error));
+  }
+}
+
+export function* createMeetup(action) {
+  try {
+    const token = localStorage.getItem('@meetapp.usertoken');
+
+    const headers = {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'multipart/form-data',
+    };
+
+    const { meetupInfo } = action.payload;
+    const data = new FormData();
+
+    data.append('title', meetupInfo.title);
+    data.append('description', meetupInfo.description);
+    data.append('location', meetupInfo.location);
+    data.append('preferences', JSON.stringify(meetupInfo.preferences));
+    data.append('cover', meetupInfo.uploadedFile, meetupInfo.uploadedFile.name);
+    data.append('when', meetupInfo.when);
+
+    console.log(JSON.stringify(meetupInfo.preferences));
+
+    const response = yield call(api.post, '/meetups', data, { headers });
+
+    console.tron.log(response.data);
+    yield put(MeetupActions.createMeetupSuccess(response.data));
+
+    yield put(push('/dashboard'));
+  } catch (err) {
+    yield put(MeetupActions.createMeetupFailure(err.response.data.error));
   }
 }

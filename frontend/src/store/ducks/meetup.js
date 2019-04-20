@@ -14,6 +14,10 @@ export const Types = {
   MEETUP_RECOMMENDED_REQUEST: 'meetup/RECOMMENDED_REQUEST',
   MEETUP_RECOMMENDED_SUCCESS: 'meetup/RECOMMENDED_SUCCESS',
   MEETUP_RECOMMENDED_FAILURE: 'meetup/RECOMMENDED_FAILURE',
+
+  MEETUP_CREATE_REQUEST: 'meetup/CREATE_REQUEST',
+  MEETUP_CREATE_SUCCESS: 'meetup/CREATE_SUCCESS',
+  MEETUP_CREATE_FAILURE: 'meetup/CREATE_FAILURE',
 };
 
 /*
@@ -53,6 +57,21 @@ export default function meetup(state = INITIAL_STATE, action) {
     case Types.MEETUP_RECOMMENDED_FAILURE:
       return { ...state, error: action.payload.error };
 
+    case Types.MEETUP_CREATE_REQUEST:
+      return { ...state, loading: true };
+    case Types.MEETUP_CREATE_SUCCESS:
+      return {
+        ...state,
+        notEnrolled: [...state.notEnrolled, action.payload.meetupInfo],
+        loading: false,
+        error: false,
+      };
+    case Types.MEETUP_CREATE_FAILURE:
+      return {
+        ...state,
+        error: action.payload.error,
+        loading: false,
+      };
     default:
       return state;
   }
@@ -101,6 +120,21 @@ export const Creators = {
 
   loadRecommendedFailure: error => ({
     type: Types.MEETUP_RECOMMENDED_FAILURE,
+    payload: { error },
+  }),
+
+  createMeetupRequest: meetupInfo => ({
+    type: Types.MEETUP_CREATE_REQUEST,
+    payload: { meetupInfo },
+  }),
+
+  createMeetupSuccess: meetupInfo => ({
+    type: Types.MEETUP_CREATE_SUCCESS,
+    payload: { meetupInfo },
+  }),
+
+  createMeetupFailure: error => ({
+    type: Types.MEETUP_CREATE_FAILURE,
     payload: { error },
   }),
 };
